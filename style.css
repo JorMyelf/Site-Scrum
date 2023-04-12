@@ -6,9 +6,19 @@
 	--preto: #262626;
 	--cinza: #646464;
 	--branco: #f1f1f1;
+	--roxo: #7743db;
+	--preto-azulado: #191825;
 	--fonte-estilizada: "Pacifico", cursive;
 	--fonte-principal: "Sen", sans-serif;
 	--text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.09);
+}
+
+.roxo {
+	color: var(--roxo);
+}
+
+.preto-azulado {
+	color: var(--preto-azulado);
 }
 
 .cinza {
@@ -36,6 +46,10 @@
 
 .bg-cinza {
 	background-color: var(--cinza);
+}
+
+.bg-roxo {
+	background-color: var(--roxo);
 }
 
 .branco {
