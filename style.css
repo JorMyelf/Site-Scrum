@@ -8,6 +8,9 @@
 	--branco: #f1f1f1;
 	--roxo: #7743db;
 	--preto-azulado: #191825;
+	--bronze: #cd7f32;
+	--prata: #c0c0c0;
+	--ouro: #ffd700;
 	--fonte-estilizada: "Pacifico", cursive;
 	--fonte-principal: "Sen", sans-serif;
 	--text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.09);
@@ -15,6 +18,89 @@
 
 body {
 	overflow-x: hidden !important;
+}
+
+.input-border-bottom {
+	border: none;
+	border-bottom: 2px solid var(--cinza);
+	height: auto;
+	font-size: 32px;
+	padding: 0 0 20px 10px;
+	width: 35vw;
+	margin: 55px 0;
+}
+
+.input-border-bottom:focus {
+	outline: none;
+	padding: 0 0 20px 10px;
+}
+
+.input-border-bottom::placeholder {
+	color: #26262690;
+	font-size: 32px;
+}
+
+.input-bf {
+	border: 1px solid var(--cinza);
+	border-radius: 58px;
+	width: 45vw;
+	height: auto;
+	font-size: 32px;
+	padding: 10px 30px;
+}
+
+.input-bf:focus {
+	outline: 2px solid var(--cinza);
+}
+
+.btn-p {
+	color: var(--preto);
+	border: 2px solid var(--preto);
+	border-radius: 14px;
+	padding: 20px 130px;
+	font-size: 32px;
+	transition: 0.3s;
+	margin: 30px;
+}
+
+.btn-p:disabled {
+	color: var(--cinza);
+	border: 2px solid var(--cinza);
+}
+
+.link:hover {
+	color: var(--vermelho);
+}
+
+.plano {
+	width: 400px;
+	height: 350px;
+	border-radius: 33px;
+	cursor: pointer;
+	transition: 0.2s;
+}
+
+.plano:hover {
+	transform: scale(1.1);
+}
+
+.bronze {
+	background-image: url(assets/img/bronze.png);
+	background-size: cover;
+}
+
+.prata {
+	background-image: url(assets/img/prata.png);
+	background-size: cover;
+}
+
+.ouro {
+	background-image: url(assets/img/ouro.png);
+	background-size: cover;
+}
+
+.checked {
+	transform: scale(1.1);
 }
 
 .w-20 {
