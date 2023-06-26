@@ -16,15 +16,17 @@
 	<body>
 		<div class="d-flex bg-azul flex-row vh-100">
 			<div class="w-50 vh-100 d-flex flex-column text-center">
-				<h2 class="h-auto m-lg-5"><img src="assets/img/escolha-seu-plano.png"></h2>
+				<h2 class="h-auto m-lg-5 branco font-principal">Escolha seu Plano</h2>
 				<form
 					class="mt-lg-5 d-flex justify-content-around flex-wrap align-content-between gap-4"
+					id="plano"
 				>
 					<input
 						type="radio"
 						class="btn-check"
 						name="planos"
 						id="bronze"
+						value="Bronze"
 						required
 					/>
 					<label class="plano bg-bronze pe-auto bronze" for="bronze"></label>
@@ -35,6 +37,7 @@
 						class="btn-check"
 						name="planos"
 						id="prata"
+						value="Prata"
 						required
 					/>
 					<label class="plano bg-prata pe-auto prata" for="prata"></label>
@@ -43,6 +46,7 @@
 						class="btn-check"
 						name="planos"
 						id="ouro"
+						value="Ouro"
 						required
 					/>
 					<label class="plano bg-ouro pe-auto ouro" for="ouro"></label>
@@ -56,8 +60,8 @@
 					CADASTRE-SE
 				</h2>
 				<form
-					class="d-flex align-items-center justify-content-center flex-column"
-					id="plano"
+					class="d-flex align-items-center justify-content-center flex-column" id="signup"
+					
 				>
 					<input
 						type="text"
@@ -82,7 +86,7 @@
 					/>
 					<input
 						type="password"
-						name="senha-confirmacao"
+						name="senhaConfirmacao"
 						placeholder="Confirmar senha*"
 						class="mb-3 input-bf"
 						required
@@ -97,4 +101,5 @@
 		</div>
 	</body>
 	<script src="js/interface.js"></script>
+	<script type="module" src="js/signup.js"></script>
 </html>

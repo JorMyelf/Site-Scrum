@@ -63,6 +63,16 @@ body {
 	margin: 30px;
 }
 
+.btn-l {
+	color: var(--preto);
+	border: 2px solid var(--preto);
+	border-radius: 14px;
+	padding: 20px 90px;
+	font-size: 32px;
+	transition: 0.3s;
+	margin: 30px;
+}
+
 .btn-p:disabled {
 	color: var(--cinza);
 	border: 2px solid var(--cinza);
@@ -101,6 +111,10 @@ body {
 
 .checked {
 	transform: scale(1.1);
+}
+
+.error {
+	outline: red solid 2px;
 }
 
 .w-20 {

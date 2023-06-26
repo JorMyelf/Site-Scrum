@@ -28,25 +28,25 @@ async function showPlans() {
 	console.log(plans);
 }
 
-async function DeleteAllUsers() {
+async function deleteAllUsers() {
 	const users = await prisma.user.deleteMany();
 	console.log(users);
 }
 
-async function updateUser(email, name, plan, newEmail, password) {
-	const user = await prisma.user.update({
+async function deleteAllPlans() {
+	const plans = await prisma.plan.deleteMany();
+	console.log(plans);
+}
+
+async function updateUser(email, password) {
+	await prisma.user.update({
 		where: { email },
-		data: {
-			name,
-			email: (email = newEmail ? newEmail : email),
-			password,
-			plan: {
-				connect: {
-					name: plan,
-				},
-			},
-		},
+		data: { password },
 	});
+	const user = await prisma.user.findUnique({
+		where: { email },
+	});
+
 	return user;
 }
 
@@ -68,7 +68,8 @@ export {
 	createUser,
 	showUsers,
 	showPlans,
-	DeleteAllUsers,
+	deleteAllUsers,
+	deleteAllPlans,
 	updateUser,
 	deleteUser,
 	getUserByEmail,
