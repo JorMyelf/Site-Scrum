@@ -6,12 +6,22 @@ import {
 	deleteAllPlans,
 	deleteAllUsers,
 } from "./userController.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+
+import auth from "./middleware/auth.js";
+
+const saltRounds = Number(process.env.SALT_ROUNDS);
 
 const router = express.Router();
 
 router.post("/signup", async (req, res) => {
 	try {
-		const { name, email, password, plan } = req.body;
+		let { name, email, password, plan } = req.body;
+
+		const hash = await bcrypt.hash(password, saltRounds);
+
+		password = hash;
 
 		const existingUser = await getUserByEmail(email);
 
@@ -31,17 +41,33 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
 	try {
 		const { email, password } = req.body;
+
 		const user = await getUserByEmail(email);
+
 		if (!user) {
 			return res.status(400).json({ message: "User does not exist" });
 		}
-		if (user.password !== password) {
-			return res.status(400).json({ message: "Invalid credentials" });
+
+		const { id: userId, password: hash } = user;
+
+		const match = await bcrypt.compare(password, hash);
+
+		if (match) {
+			const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
+				expiresIn: "7200", // 2h
+				algorithm: "HS256",
+			});
+			
+			res.json({ auth: true, token: token });
+		} else {
+			res.json({
+				auth: false,
+				token: null,
+				message: "Invalid credentials",
+			});
 		}
-		return res.redirect("home.html");
 	} catch (error) {
 		console.error(error);
-		return res.status(500).json({ message: "Internal server error" });
 	}
 });
 

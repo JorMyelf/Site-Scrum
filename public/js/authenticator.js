@@ -1,3 +1,5 @@
+import API from "./lib/auth.js";
+
 const email = document.getElementById("email");
 const password = document.getElementById("password");
 const button = document.getElementById("btn");
@@ -9,6 +11,8 @@ button.addEventListener("click", async (e) => {
 		password: password.value,
 	};
 
+	// window.handleSubmit = handleSubmit;
+
 	try {
 		const response = await fetch("/login", {
 			method: "POST",
@@ -17,18 +21,11 @@ button.addEventListener("click", async (e) => {
 			},
 			body: JSON.stringify(data),
 		});
-		if (response.redirected) {
-			window.location.href = response.url;
+		const { auth, token } = await response.json();
+		if (auth) {
+			API.signin(token);
 		} else {
-			const responseData = await response.json();
-			if (responseData.message === "Invalid credentials") {
-				password.classList.add("error");
-				alert("Senha inválida");
-			}
-			if (responseData.message === "User does not exist") {
-				email.classList.add("error");
-				alert("Usuário não existe");
-			}
+			alert("Senha ou email incorretos");
 		}
 	} catch (error) {
 		console.error(error);
