@@ -11,8 +11,6 @@ button.addEventListener("click", async (e) => {
 		password: password.value,
 	};
 
-	// window.handleSubmit = handleSubmit;
-
 	try {
 		const response = await fetch("/login", {
 			method: "POST",

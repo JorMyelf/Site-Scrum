@@ -2,17 +2,16 @@ function isAuthenticated() {
 	if (!getToken()) {
 		window.location.href = "/index.html";
 	} else {
-		return true;
+		return localStorage.getItem("@site-scrum:token");
 	}
 }
 
 function getToken() {
-	return localStorage.getItem("@sitescrum:token");
+	return localStorage.getItem("@site-scrum:token");
 }
 
 function signin(token) {
 	localStorage.setItem("@site-scrum:token", token);
-
 	window.location.href = "/home.html";
 }
 

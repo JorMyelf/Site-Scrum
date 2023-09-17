@@ -54,10 +54,8 @@ router.post("/login", async (req, res) => {
 
 		if (match) {
 			const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
-				expiresIn: "7200", // 2h
-				algorithm: "HS256",
+				expiresIn: "3d",
 			});
-			
 			res.json({ auth: true, token: token });
 		} else {
 			res.json({
@@ -69,6 +67,10 @@ router.post("/login", async (req, res) => {
 	} catch (error) {
 		console.error(error);
 	}
+});
+
+router.get("/verify", auth, async (req, res) => {
+	res.json({ auth: true });
 });
 
 router.post("/update", async (req, res) => {
