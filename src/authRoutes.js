@@ -8,35 +8,50 @@ import {
 } from "./userController.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import z from "zod";
 
 import auth from "./middleware/auth.js";
+import validate from "./middleware/validate.js";
 
 const saltRounds = Number(process.env.SALT_ROUNDS);
 
 const router = express.Router();
 
-router.post("/signup", async (req, res) => {
-	try {
-		let { name, email, password, plan } = req.body;
+router.post(
+	"/signup",
+	validate(
+		z.object({
+			body: z.object({
+				name: z.string().min(2).max(255),
+				email: z.string().email(),
+				password: z.string().min(8),
+				plan: z.string(),
+			}),
+		})
+	),
+	async (req, res) => {
+		try {
+			let { name, email, password, plan } = req.body;
 
-		const hash = await bcrypt.hash(password, saltRounds);
+			const hash = await bcrypt.hash(password, saltRounds);
 
-		password = hash;
+			password = hash;
 
-		const existingUser = await getUserByEmail(email);
+			const existingUser = await getUserByEmail(email);
 
-		if (existingUser) {
-			return res.status(400).json({ message: "User already exists" });
+			if (existingUser) {
+				return res.status(400).json({ message: "User already exists" });
+			}
+
+			await createUser(name, email, password, plan);
+
+			return res.redirect("mailVerification.html");
+		} catch (error) {
+			console.error(error);
+			return res.status(500).json({ message: "Internal server error" });
 		}
-
-		await createUser(name, email, password, plan);
-
-		return res.redirect("mailVerification.html");
-	} catch (error) {
-		console.error(error);
-		return res.status(500).json({ message: "Internal server error" });
 	}
-});
+);
 
 router.post("/login", async (req, res) => {
 	try {
@@ -73,19 +88,30 @@ router.get("/verify", auth, async (req, res) => {
 	res.json({ auth: true });
 });
 
-router.post("/update", async (req, res) => {
-	try {
-		const { email, password } = req.body;
-		const user = await updateUser(email, password);
-		if (!user) {
-			return res.status(400).json({ message: "User does not exist" });
+router.post(
+	"/update",
+	validate(
+		z.object({
+			body: z.object({
+				email: z.string().email(),
+				password: z.string().min(8),
+			}),
+		})
+	),
+	async (req, res) => {
+		try {
+			const { email, password } = req.body;
+			const user = await updateUser(email, password);
+			if (!user) {
+				return res.status(400).json({ message: "User does not exist" });
+			}
+		} catch (error) {
+			console.error(error);
+			return res.status(500).json({ message: "Internal server error" });
 		}
-	} catch (error) {
-		console.error(error);
-		return res.status(500).json({ message: "Internal server error" });
+		return res.redirect("index.html");
 	}
-	return res.redirect("index.html");
-});
+);
 
 router.post("/deleteEverything", async (req, res) => {
 	try {
